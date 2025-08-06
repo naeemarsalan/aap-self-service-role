@@ -1,5 +1,5 @@
 ---
-- name: Create OpenShift namespace "{{ namespace }}"
+- name: Create OpenShift namespace "{{ openshift_namespace }}"
   tags: [create_namespace]
   redhat.openshift.k8s:
     state: present
@@ -7,5 +7,5 @@
       apiVersion: project.openshift.io/v1
       kind: Project 
       metadata:
-        name: "{{ namespace }}"
+        name: "{{ openshift_namespace }}"
 

@@ -1,11 +1,12 @@
-- name: Get Route for RHAAP Helm release
+- name: Get Route for RHAAP Helm release using label
   redhat.openshift.k8s:
     api_version: route.openshift.io/v1
     kind: Route
-    name: rhaap-self-service-rhaap-self-service-preview
-    namespace: "{{ namespace }}"
-    state: present
+    namespace: "{{ openshift_namespace }}"
+    label_selectors:
+      - "meta.helm.sh/release-name={{ helm_release_name }}"
   register: rhaap_route
+  tags: [get_route]
 
 - name: Set RHAAP route hostname fact
   set_fact:
@@ -22,9 +23,9 @@
 
 - name: Update OAuth2 application in AAP with RHAAP route
   ansible.platform.application:
-    name: "Self Service 1"
+    name: "{{ aap_oauth_client_name }}" 
     description: "Self Service application"
-    organization: "Default"
+    organization: "{{ aap_organization }}"
     state: present
     authorization_grant_type: authorization-code
     client_type: confidential

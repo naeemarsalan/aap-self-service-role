@@ -1,8 +1,8 @@
 - name: Create OAuth2 application in AAP
   ansible.platform.application:
-    name: "Self Service 1"
+    name: "{{ aap_oauth_client_name}} "
     description: "Self Service application"
-    organization: "Default"
+    organization: "{{ aap_organization }}"
     state: present
     authorization_grant_type: authorization-code
     client_type: confidential

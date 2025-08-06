@@ -6,7 +6,7 @@
       kind: ImageStream
       metadata:
         name: plugin-registry
-        namespace: "{{ namespace }}"
+        namespace: "{{ openshift_namespace }}"
 
 - name: Create BuildConfig for plugin-registry (binary build)
   redhat.openshift.k8s:
@@ -16,7 +16,7 @@
       kind: BuildConfig
       metadata:
         name: plugin-registry
-        namespace: "{{ namespace }}"
+        namespace: "{{ openshift_namespace }}"
         labels:
           app: plugin-registry
       spec:
@@ -42,6 +42,6 @@
     oc start-build plugin-registry
     --from-dir={{ plugin_root_dir }}
     --wait
-    -n {{ namespace }} 
+    -n {{ openshift_namespace }} 
   delegate_to: localhost
   run_once: true

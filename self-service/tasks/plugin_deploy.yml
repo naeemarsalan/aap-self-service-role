@@ -3,7 +3,7 @@
     kind: ImageStream
     api_version: image.openshift.io/v1
     name: plugin-registry
-    namespace: "{{ namespace }}"
+    namespace: "{{ openshift_namespace }}"
   register: imagestream_info
   tags: [deploy_plugin]
 
@@ -30,7 +30,7 @@
       kind: Deployment
       metadata:
         name: plugin-registry
-        namespace: "{{ namespace }}"
+        namespace: "{{ openshift_namespace }}"
         labels:
           app: plugin-registry
       spec:
@@ -59,7 +59,7 @@
       kind: Service
       metadata:
         name: plugin-registry
-        namespace: "{{ namespace }}"
+        namespace: "{{ openshift_namespace }}"
         labels:
           app: plugin-registry
           app.kubernetes.io/component: plugin-registry

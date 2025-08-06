@@ -11,7 +11,6 @@
   set_fact:
     openshift_base_domain: "{{ ingress_info.result.status.domain }}"
 
-
 - name: Fail if base domain is not defined
   fail:
     msg: "openshift_base_domain is not set. Check the IngressController or cluster access."
@@ -21,12 +20,17 @@
   set_fact:
     openshift_base_domain: "{{ ingress_info.result.status.domain }}"
 
+- name: Add Openshift repository
+  kubernetes.core.helm_repository:
+    name: openshift 
+    repo_url: "{{ helm_repo_url }}" 
+
 - name: Install RHAAP chart from openshift repo
   kubernetes.core.helm:
-    name: rhaap-self-service
-    chart_ref: openshift/redhat-rhaap-self-service-preview
-    chart_version: "1.0.1"
-    release_namespace: "{{ namespace }}"
+    name: "{{ helm_release_name }}"
+    chart_ref: "{{ helm_repo_name }}/{{ helm_chart_name }}"
+    chart_version: "{{ helm_chart_version }}"
+    release_namespace: "{{ openshift_namespace }}"
     create_namespace: true
     values_files: "{{ helm_values }}"
     set_values:
