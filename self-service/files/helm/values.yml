@@ -72,7 +72,6 @@ redhat-developer-hub:
             port: '8000'
           rhaap:
             baseUrl: '${AAP_HOST_URL}'
-            checkSSL: true
             schedule:
               frequency:
                 seconds: 120
@@ -90,7 +89,6 @@ redhat-developer-hub:
           providers:
             rhaap:
               production:
-                checkSSL: true
                 clientId: '${OAUTH_CLIENT_ID}'
                 clientSecret: '${OAUTH_CLIENT_SECRET}'
                 host: '${AAP_HOST_URL}'
