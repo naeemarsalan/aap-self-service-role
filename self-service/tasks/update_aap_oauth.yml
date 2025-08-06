@@ -1,5 +1,5 @@
 - name: Get Route for RHAAP Helm release using label
-  redhat.openshift.k8s:
+  kubernetes.core:
     api_version: route.openshift.io/v1
     kind: Route
     namespace: "{{ openshift_namespace }}"
