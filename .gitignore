@@ -1,4 +1,4 @@
-**/role/self-service/files/plugins/*
+**/self-service/files/plugins/*
 **/secrets.yml
 **/venv
 ansible.cfg
