@@ -1,0 +1,11 @@
+---
+- name: Test self-service role
+  hosts: localhost
+  gather_facts: false
+
+  vars_files:
+    - secrets.yml
+
+  roles:
+    - role: self-service 
+

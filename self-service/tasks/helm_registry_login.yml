@@ -1,0 +1,8 @@
+- name: Login to registry.redhat.io with helm
+  kubernetes.core.helm_registry_auth:
+    username: "{{ registry_username }}"
+    password: "{{ registry_password }}"
+    host: registry.redhat.io
+  no_log: true
+
+

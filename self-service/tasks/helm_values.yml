@@ -1,0 +1,36 @@
+- name: Get OpenShift base domain from default IngressController
+  redhat.openshift.k8s:
+    api_version: operator.openshift.io/v1
+    kind: IngressController
+    name: default
+    namespace: openshift-ingress-operator
+    state: present
+  register: ingress_info
+
+- name: Set base domain fact
+  set_fact:
+    openshift_base_domain: "{{ ingress_info.result.status.domain }}"
+
+
+- name: Fail if base domain is not defined
+  fail:
+    msg: "openshift_base_domain is not set. Check the IngressController or cluster access."
+  when: ingress_info.result.status.domain is not defined
+
+- name: Set base domain fact
+  set_fact:
+    openshift_base_domain: "{{ ingress_info.result.status.domain }}"
+
+- name: Install RHAAP chart from openshift repo
+  kubernetes.core.helm:
+    name: rhaap-self-service
+    chart_ref: openshift/redhat-rhaap-self-service-preview
+    chart_version: "1.0.1"
+    release_namespace: "{{ namespace }}"
+    create_namespace: true
+    values_files: "{{ helm_values }}"
+    set_values:
+      - value: redhat-developer-hub.global.clusterRouterBase={{ openshift_base_domain }}
+        value_type: string
+  tags: helm
+
